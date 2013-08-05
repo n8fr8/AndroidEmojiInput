@@ -8,15 +8,22 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -31,12 +38,38 @@ public class EmojiManager {
 	
 	private Context mContext;
 	
+	private final static String PLUGIN_CONSTANT = "info.guardianproject.emoji.STICKER_PACK";
+	
 	private EmojiManager (Context context)
 	{
 		mContext = context;
 	}
 	
+	public void addJsonPlugins () throws IOException, JsonSyntaxException
+	{
+		PackageManager packageManager = mContext.getPackageManager();
+		Intent stickerIntent = new Intent(PLUGIN_CONSTANT);
+		List<ResolveInfo> stickerPack = packageManager.queryIntentActivities(stickerIntent, 0);
+		
+		for (ResolveInfo ri : stickerPack)
+		{
+			
+			try {
+				Resources res = packageManager.getResourcesForApplication(ri.activityInfo.applicationInfo);
+				addJsonDefinitions("stickers.json","stickers","png",res);
+			} catch (NameNotFoundException e) {
+				Log.e("emoji","unable to find application for emoji plugin");
+			}
+		}
+		
+	}
+	
 	public void addJsonDefinitions (String assetPathJson, String basePath, String fileExt) throws IOException, JsonSyntaxException
+	{
+		addJsonDefinitions (assetPathJson, basePath, fileExt, mContext.getResources());
+	}
+	
+	public void addJsonDefinitions (String assetPathJson, String basePath, String fileExt, Resources res) throws IOException, JsonSyntaxException
 	{
 	
 		Gson gson = new Gson();
