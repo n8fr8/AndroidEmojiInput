@@ -1,5 +1,7 @@
 package info.guardianproject.emoji;
 
+import android.content.res.Resources;
+
 public class Emoji {
 
 	String name;
@@ -8,4 +10,6 @@ public class Emoji {
 	String moji;
 	String emoticon;
 	String assetPath;
+	
+	Resources res;
 }

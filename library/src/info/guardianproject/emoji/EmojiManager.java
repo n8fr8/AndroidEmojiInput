@@ -33,7 +33,7 @@ public class EmojiManager {
 	
 	private static EmojiManager mInstance = null;
 
-	private Map<Pattern, String> emoticons = new HashMap<Pattern, String>();
+	private Map<Pattern, Emoji> emoticons = new HashMap<Pattern, Emoji>();
 	private Map<String, EmojiGroup> categories = new HashMap<String, EmojiGroup>();
 	
 	private Context mContext;
@@ -74,7 +74,7 @@ public class EmojiManager {
 	
 		Gson gson = new Gson();
 		
-		Reader reader = new InputStreamReader(mContext.getAssets().open(assetPathJson));
+		Reader reader = new InputStreamReader(res.getAssets().open(assetPathJson));
 		
 		Type collectionType = new TypeToken<ArrayList<Emoji>>(){}.getType();
 		Collection<Emoji> emojis = gson.fromJson(reader, collectionType );
@@ -82,18 +82,19 @@ public class EmojiManager {
 		for (Emoji emoji : emojis)
 		{
 			emoji.assetPath = basePath + '/' + emoji.name + '.' + fileExt;
-
+			emoji.res = res;
+			
 			try
 			{
-				mContext.getAssets().open(emoji.assetPath);
+				res.getAssets().open(emoji.assetPath);
 				
-				addPattern(':' + emoji.name + ':', emoji.assetPath);
+				addPattern(':' + emoji.name + ':', emoji);
 				
 				if (emoji.moji != null)
-					addPattern(emoji.moji, emoji.assetPath);
+					addPattern(emoji.moji, emoji);
 				
 				if (emoji.emoticon != null)
-					addPattern(emoji.emoticon, emoji.assetPath);
+					addPattern(emoji.emoticon, emoji);
 
 				
 				if (emoji.category != null)
@@ -144,13 +145,13 @@ public class EmojiManager {
 	}
 
 	
-	private void addPattern(String pattern, String resource) {
+	private void addPattern(String pattern, Emoji resource) {
 		  
 		emoticons.put(Pattern.compile(pattern,Pattern.LITERAL), resource);
 		
 	}
 	
-	private void addPattern(char charPattern, String resource) {
+	private void addPattern(char charPattern, Emoji resource) {
 		  
 		emoticons.put(Pattern.compile(charPattern+"",Pattern.UNICODE_CASE), resource);
 	}
@@ -158,7 +159,7 @@ public class EmojiManager {
 	
 	public boolean addEmoji(Context context, Spannable spannable) throws IOException {
 		boolean hasChanges = false;
-		for (Entry<Pattern, String> entry : emoticons.entrySet()) 
+		for (Entry<Pattern, Emoji> entry : emoticons.entrySet()) 
 		{
 			Matcher matcher = entry.getKey().matcher(spannable);
 			while (matcher.find()) {
@@ -175,7 +176,9 @@ public class EmojiManager {
 				    }
 				if (set) {
 				    hasChanges = true;
-				    spannable.setSpan(new ImageSpan(context, BitmapFactory.decodeStream(context.getResources().getAssets().open(entry.getValue()))),
+				    
+				    Emoji emoji = entry.getValue();
+				    spannable.setSpan(new ImageSpan(context, BitmapFactory.decodeStream(emoji.res.getAssets().open(emoji.assetPath))),
 				            matcher.start(), matcher.end(),
 				            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}

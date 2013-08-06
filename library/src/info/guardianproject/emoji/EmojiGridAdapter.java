@@ -2,9 +2,9 @@ package info.guardianproject.emoji;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -53,14 +53,15 @@ public class EmojiGridAdapter extends BaseAdapter
        
   	  try
   	  {
-        	  InputStream is = mContext.getResources().getAssets().open(mEmoji.get(position).assetPath);
   		  
-        	  Bitmap bmp = BitmapFactory.decodeStream(is);
-        	  
-              i = new ImageView(mContext);
-              i.setLayoutParams(new GridView.LayoutParams(64,64));
-              i.setScaleType(ImageView.ScaleType.CENTER_CROP);               
-              i.setImageBitmap(bmp);     
+  		  InputStream  is = mEmoji.get(position).res.getAssets().open(mEmoji.get(position).assetPath);
+    	
+    	  Bitmap bmp = BitmapFactory.decodeStream(is);
+    	  
+          i = new ImageView(mContext);
+          i.setLayoutParams(new GridView.LayoutParams(64,64));
+          i.setScaleType(ImageView.ScaleType.CENTER_CROP);               
+          i.setImageBitmap(bmp);     
   	  }
   	  catch (Exception e)
   	  {
