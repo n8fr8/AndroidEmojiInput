@@ -56,7 +56,15 @@ public class EmojiManager {
 			
 			try {
 				Resources res = packageManager.getResourcesForApplication(ri.activityInfo.applicationInfo);
-				addJsonDefinitions("stickers.json","stickers","png",res);
+				
+				String[] files = res.getAssets().list("");
+				
+				for (String file : files)
+				{
+					if (file.endsWith(".json"))
+						addJsonDefinitions(file,file.substring(0,file.length()-5),"png",res);
+				}
+				
 			} catch (NameNotFoundException e) {
 				Log.e("emoji","unable to find application for emoji plugin");
 			}

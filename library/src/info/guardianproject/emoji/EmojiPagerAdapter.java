@@ -27,6 +27,8 @@ public class EmojiPagerAdapter extends PagerAdapter {
 	   
 	   public EmojiPagerAdapter (Context context, EditText editable,List<EmojiGroup> emojiGroups)
 	   {
+		   super();
+		   
 		   mContext = context;
 		   mEditable = editable;
 		   
