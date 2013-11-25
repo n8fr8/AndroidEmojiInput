@@ -1,0 +1,46 @@
+[
+{
+	"moji": "😃",
+	"alts": ["smiling_face_with_open_mouth"],
+	"name": "smiley",
+	"name-ja": "スマイル",
+	"emoticon": ":)",
+	"category": "faces",
+	"unicode": "1f603",
+	"attribution": "Eric Nikolaisen"
+},
+{
+	"moji": "😄",
+	"alts": ["smiling_face_with_open_mouth_and_smiling_eyes"],
+	"name": "smile",
+	"name-ja": "嬉しい顔",
+	"category": "faces",
+	"unicode": "1f604",
+	"attribution": "rastilin@gmail.com"
+},
+{
+	"name": "smiley_confused",
+	"name-ja": "スマイリー(困る)",
+	"category": "faces"
+},
+{
+	"name": "smiley_kissing_heart",
+	"name-ja": "スマイリー(投げキッス)",
+	"category": "faces"
+},
+{
+	"name": "smiley_sleeping",
+	"name-ja": "スマイリー(眠い)",
+	"category": "faces"
+},
+{
+	"name": "smiley_smile",
+	"name-ja": "スマイリー(嬉しい顔)",
+	"category": "faces"
+},
+{
+	"name": "smiley_stuck_out_tongue_winking_eye",
+	"name-ja": "スマイリー(あっかんべー)",
+	"category": "faces"
+}
+]

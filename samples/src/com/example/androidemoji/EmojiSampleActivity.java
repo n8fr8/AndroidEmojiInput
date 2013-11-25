@@ -34,7 +34,7 @@ public class EmojiSampleActivity extends Activity {
 		
 		try
 		{
-			eManager.addJsonDefinitions("emoji/phantom.json", "emoji/phantom", "png");
+			eManager.addJsonDefinitions("phantomsmiles.json", "phantom", "png");
 			
 			Collection<EmojiGroup> emojiGroups = eManager.getEmojiGroups();
 			
